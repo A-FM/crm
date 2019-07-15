@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.ycy.crm.dao.TLinkManDao">
+
+    <select id="getAllLinkMan" resultType="TLinkMan">
+        SELECT
+        t_linkman.linkid,
+        t_linkman.linkName,
+        t_linkman.linkGender,
+        t_linkman.linkPhone,
+        t_linkman.linkMobile,
+        t_linkman.clid
+        FROM t_linkman
+    </select>
+    <select id="getLinkManById" resultType="TLinkMan">
+        SELECT
+        t_linkman.linkid,
+        t_linkman.linkName,
+        t_linkman.linkGender,
+        t_linkman.linkPhone,
+        t_linkman.linkMobile,
+        t_linkman.clid
+        FROM t_linkman  WHERE t_linkman.linkid = #{linkid}
+    </select>
+    <insert id="addLinkMan">
+        INSERT INTO t_linkman(linkName, linkGender, linkPhone, linkMobile, clid) values (#{linkName},#{linkGender},#{linkPhone},#{linkMobile},#{clid})
+    </insert>
+    <update id="updateLinkManById">
+        UPDATE t_linkman SET
+        t_linkman.linkName=#{linkName},
+        t_linkman.linkGender=#{linkGender},
+        t_linkman.linkPhone=#{linkPhone},
+        t_linkman.linkMobile=#{linkMobile},
+        t_linkman.clid=#{clid}
+        WHERE t_linkman.linkid=#{linkid}
+    </update>
+
+    <select id="getLinkManByName" resultType="TLinkMan">
+        SELECT
+        t_linkman.linkid,
+        t_linkman.linkName,
+        t_linkman.linkGender,
+        t_linkman.linkPhone,
+        t_linkman.linkMobile,
+        t_linkman.clid
+        FROM t_linkman
+        WHERE t_linkman.linkName LIKE CONCAT('%',#{linkName},'%')
+    </select>
+    <select id="getLinkManByLinkNameAndClid" resultType="TLinkMan">
+        SELECT
+        t_linkman.linkid,
+        t_linkman.linkName,
+        t_linkman.linkGender,
+        t_linkman.linkPhone,
+        t_linkman.linkMobile,
+        t_linkman.clid
+        FROM t_linkman
+        WHERE t_linkman.linkName LIKE CONCAT('%',#{linkName},'%') AND t_linkman.clid=#{clid}
+    </select>
+</mapper>

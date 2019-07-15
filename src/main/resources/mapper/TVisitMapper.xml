@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.ycy.crm.dao.TVisitDao">
+    <sql id="TVisitColumns">
+        t_visit.vid,
+        t_visit.vaddress,
+        t_visit.uvid,
+        t_visit.cvid,
+        t_visit.vcontent
+    </sql>
+
+
+    <select id="getAllVisit" resultType="TVisit">
+        SELECT
+        <include refid="TVisitColumns"/>
+        FROM t_visit
+    </select>
+    <insert id="AddVisit">
+        INSERT INTO t_visit(vaddress, uvid, cvid, vcontent) VALUES (#{vaddress},#{uvid},#{cvid},#{vcontent})
+    </insert>
+    <select id="getVisitById" resultType="TVisit">
+        SELECT
+        <include refid="TVisitColumns"/>
+        FROM t_visit
+        WHERE t_visit.vid = #{vid}
+    </select>
+
+    <update id="updateVisitById">
+        UPDATE t_visit SET
+        t_visit.vaddress=#{vaddress},
+        t_visit.uvid=#{uvid},
+        t_visit.cvid=#{cvid},
+        t_visit.vcontent=#{vcontent}
+        WHERE t_visit.vid=#{vid}
+    </update>
+
+    <select id="getTVisitByName" resultType="TVisit">
+        SELECT
+        <include refid="TVisitColumns"/>
+        FROM t_visit
+        WHERE t_visit.vaddress LIKE CONCAT('%',#{vaddress},'%')
+    </select>
+
+    <select id="MMP" resultType="TVisit">
+        SELECT
+        <include refid="TVisitColumns"/>
+        FROM t_visit
+        WHERE
+        t_visit.cvid=#{cvid} AND t_visit.uvid=#{uvid} AND t_visit.vaddress LIKE CONCAT('%',#{vaddress},'%')
+    </select>
+
+</mapper>

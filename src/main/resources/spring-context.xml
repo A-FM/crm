@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--如果想让Spring执行自动装配,接管声明任务,实现IoC的话  需要告诉 Spring 下面这个文件, 然后Spring 发现他继承的 ApplicationContextAware之后  会使用这个文件进行自动装配.-->
+    <!--    <bean id="springContext" class="pers.ycy.my.shop.commons.context.SpringContext"/>-->
+    <!-- 就想下面这两个文件一样 ,  通过这种方式Spring 可以发现他们 , 但是他们只是普通的类 和上面的不同,  上面的继承的有ApplicationContextAware, 然后Spring会用 这个文件去进行装配工作. -->
+    <!--    <bean id="userDao" class="pers.ycy.my.shop.dao.Impl.UserDaoImpl"/>-->
+    <!--    <bean id="userService" class="pers.ycy.my.shop.service.Impl.UserServiceImpl"/>-->
+    <!-- 如果使用注解的话  可以在SpringContext 上面进行注解 这样Spring也可以发现 .  -->
+
+
+    <!-- @Component 既不是数据访问层, 又业务逻辑层,还不是控制层.  但是就是想注入,就用@Component,一般是工具类的话. -->
+    <!-- 开启自动扫描注解IoC -->
+    <!-- 扫描base-package下面的所有文件, 将其中的除了@Controller 之外的注解全部注册登记一下. -->
+    <context:annotation-config/>
+    <context:component-scan base-package="pers.ycy.crm">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+</beans>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.ycy.crm.dao.TUserDao">
+    <sql id="tUserColumns">
+        a.uid,
+        a.username,
+        a.password,
+        a.address
+    </sql>
+    <select id="getByUsernameAndPassword" resultType="TUser">
+        SELECT
+        <include refid="tUserColumns"/>
+        FROM t_user AS a
+        WHERE
+        a.username = #{username} AND a.password=#{password}
+    </select>
+    <select id="getAllUser" resultType="TUser">
+        SELECT
+        <include refid="tUserColumns"/>
+        FROM t_user AS a
+    </select>
+</mapper>

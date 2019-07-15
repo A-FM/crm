@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.ycy.crm.dao.TCustomerDao">
+    <sql id="CustomerColumns">
+        cid,
+        custName,
+        custSource,
+        custPhone,
+        custMobile,
+        custLevel
+    </sql>
+
+    <insert id="AddCustomer">
+        INSERT INTO t_customer(custName, custSource, custPhone, custMobile, custLevel) values (#{custName},#{custSource},#{custPhone},#{custMobile},#{custLevel})
+    </insert>
+    <select id="QueryAllCustomer" resultType="TCustomer">
+        SELECT
+        <include refid="CustomerColumns"/>
+        FROM
+        t_customer
+    </select>
+    <delete id="DeletedCustomer">
+        DELETE FROM t_customer WHERE cid=#{id}
+    </delete>
+    <select id="getCustomerById" resultType="TCustomer">
+        SELECT
+        <include refid="CustomerColumns"/>
+        FROM
+        t_customer
+        WHERE t_customer.cid = #{id}
+    </select>
+    <select id="getCustomerByName" resultType="TCustomer">
+        SELECT
+        <include refid="CustomerColumns"/>
+        FROM
+        t_customer
+        WHERE t_customer.custName LIKE CONCAT('%',#{custName},'%')
+    </select>
+    <update id="UpdateCustomer">
+        UPDATE t_customer SET
+        t_customer.custName=#{custName},
+        t_customer.custSource=#{custSource},
+        t_customer.custPhone=#{custPhone},
+        t_customer.custMobile=#{custMobile},
+        t_customer.custLevel=#{custLevel}
+        WHERE t_customer.cid=#{cid}
+    </update>
+    <select id="QueryCustomerInfo" resultType="TCustomer">
+        SELECT
+        <include refid="CustomerColumns"/>
+        FROM
+        t_customer
+        WHERE t_customer.custName LIKE CONCAT('%',#{custName},'%') AND t_customer.custSource LIKE CONCAT('%',#{custSource},'%') AND t_customer.custLevel=#{custLevel}
+    </select>
+
+    <select id="CustomerSource" resultType="CustomerEx">
+        SELECT custSource,COUNT(*) AS num FROM t_customer GROUP BY t_customer.custSource;
+    </select>
+
+    <select id="CustomerLevel" resultType="CustomerEx">
+        SELECT  t_dict.dname  ,COUNT(*) AS num FROM t_customer INNER JOIN t_dict ON t_customer.custLevel=t_dict.did GROUP BY t_customer.custLevel;
+    </select>
+
+</mapper>
